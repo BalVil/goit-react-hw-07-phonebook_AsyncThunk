@@ -23,7 +23,7 @@ export const ContactItem = ({ id, name, phone }) => {
   useEffect(() => {
     return () => {
       if (status === id) {
-        showWarning(`You have removed ${name} contact from your list `);
+        showWarning(`You have removed ${name} from your list `);
       }
     };
   }, [id, name, status]);

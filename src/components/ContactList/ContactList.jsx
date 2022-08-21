@@ -1,26 +1,27 @@
 import { useSelector } from 'react-redux';
 import { ContactItem } from 'components/ContactItem/ContactItem';
 import { useContactList } from 'hooks/useContactList';
-import { getStatus, getError, getFilter } from 'redux/selectors';
+import { getStatus, getError } from 'redux/selectors';
 import { Notification } from 'components/Notification/Notification';
 import { Spinner } from 'components/Spinner/Spinner';
+import Filter from 'components/Filter/Filter';
 
 const ContactList = () => {
-  const { visibleContacts } = useContactList();
+  const { FilteredContacts, filter, setFilter } = useContactList();
   const status = useSelector(getStatus);
   const error = useSelector(getError);
-  const filter = useSelector(getFilter);
 
-  const noContactFound = visibleContacts.length === 0 && filter;
+  const noContactFound = FilteredContacts.length === 0 && filter;
   const noContacts =
-    visibleContacts.length === 0 && !filter && status !== 'fetching';
+    FilteredContacts.length === 0 && status !== 'idle' && status !== 'fetching';
 
   return (
     <>
       {status === 'fetching' && !error && <Spinner />}
+      {status !== 'fetching' && <Filter value={filter} onChange={setFilter} />}
       <ul>
-        {visibleContacts.length > 0 &&
-          visibleContacts.map(({ id, name, phone }) => {
+        {FilteredContacts.length > 0 &&
+          FilteredContacts.map(({ id, name, phone }) => {
             return (
               <ContactItem
                 key={id}

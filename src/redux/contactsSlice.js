@@ -5,15 +5,8 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
-    filter: '',
     status: 'idle', // 'fetching' | 'fetchSuccess' | 'delSuccess' | 'addSuccess' | 'failed'
     error: null,
-  },
-
-  reducers: {
-    changeFilter(state, action) {
-      state.filter = action.payload;
-    },
   },
 
   // 'immer' для мутації копію стану
