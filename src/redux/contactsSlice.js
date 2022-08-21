@@ -20,7 +20,7 @@ const contactsSlice = createSlice({
     },
     [getContacts.rejected]: (state, action) => {
       state.error = action.payload;
-      state.status = 'failed';
+      // state.status = 'failed';
     },
 
     [deleteContact.pending]: (state, action) => {
@@ -33,7 +33,7 @@ const contactsSlice = createSlice({
     },
     [deleteContact.rejected]: (state, action) => {
       state.error = action.payload;
-      state.status = 'failed';
+      // state.status = 'failed';
     },
 
     [addContact.pending]: (state, _) => {
@@ -45,7 +45,7 @@ const contactsSlice = createSlice({
     },
     [addContact.rejected]: (state, action) => {
       state.error = action.payload;
-      state.status = 'failed';
+      // state.status = 'failed';
     },
   },
 });

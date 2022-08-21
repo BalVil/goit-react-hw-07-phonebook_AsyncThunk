@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ContactItem } from 'components/ContactItem/ContactItem';
 import { useContactList } from 'hooks/useContactList';
@@ -5,6 +6,7 @@ import { getStatus, getError } from 'redux/selectors';
 import { Notification } from 'components/Notification/Notification';
 import { Spinner } from 'components/Spinner/Spinner';
 import Filter from 'components/Filter/Filter';
+import { showError } from 'components/Notification/Notification';
 
 const ContactList = () => {
   const { FilteredContacts, filter, setFilter } = useContactList();
@@ -13,7 +15,19 @@ const ContactList = () => {
 
   const noContactFound = FilteredContacts.length === 0 && filter;
   const noContacts =
-    FilteredContacts.length === 0 && status !== 'idle' && status !== 'fetching';
+    FilteredContacts.length === 0 &&
+    !error &&
+    !filter &&
+    status !== 'idle' &&
+    status !== 'fetching';
+
+  useEffect(() => {
+    return () => {
+      if (error) {
+        showError('Something went wrong');
+      }
+    };
+  }, [error]);
 
   return (
     <>
@@ -31,17 +45,14 @@ const ContactList = () => {
               ></ContactItem>
             );
           })}
-        {noContactFound && (
-          <Notification status="info">No contact found</Notification>
-        )}
-        {noContacts && (
-          <Notification status="warning">
-            No contacts in the phonebook
-          </Notification>
-        )}
       </ul>
-      {error && (
-        <Notification status="error">Something went wrong</Notification>
+      {noContactFound && (
+        <Notification status="info">No contact found</Notification>
+      )}
+      {noContacts && (
+        <Notification status="warning">
+          No contacts in the phonebook
+        </Notification>
       )}
     </>
   );
