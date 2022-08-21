@@ -1,19 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  showSuccess,
-  showWarning,
-  showError,
-} from 'components/Notification/Notification';
+import { showSuccess, showWarning } from 'components/Notification/Notification';
 import { contactsActions } from 'redux/contactsSlice';
-import { getItems, getStatus, getError } from 'redux/selectors';
+import { getItems, getStatus } from 'redux/selectors';
 
 export const useAddContact = () => {
   const [inputs, setInputs] = useState({});
 
   const contactsItems = useSelector(getItems);
   const status = useSelector(getStatus);
-  const error = useSelector(getError);
 
   const dispatch = useDispatch();
 
@@ -45,10 +40,7 @@ export const useAddContact = () => {
     if (status === 'addSuccess') {
       showSuccess('Contact added');
     }
-    if (error) {
-      showError('Something went wrong');
-    }
-  }, [error, status]);
+  }, [status]);
 
   return { inputs, handleChange, handleSubmit, status };
 };
